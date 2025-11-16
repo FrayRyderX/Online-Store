@@ -22,12 +22,12 @@ jobs:
       - name: Validate PR description
         run: |
           description="${{ github.event.pull_request.body }}"
-          
+
           if [[ ! "$description" =~ "## Developer checks" ]]; then
             echo "❌ PR must include '## Developer checks' section"
             exit 1
           fi
-          
+
           required_checks=(
             "Check that the project build works"
             "Check the tests (if applicable)"
@@ -36,12 +36,12 @@ jobs:
             "Updated documentation (if needed)"
             "No breaking changes (or documented if present)"
           )
-          
+
           for check in "${required_checks[@]}"; do
             if [[ ! "$description" =~ "$check" ]]; then
               echo "❌ Missing required check: $check"
               exit 1
             fi
           done
-          
+
           echo "✅ All Developer checks are present"
