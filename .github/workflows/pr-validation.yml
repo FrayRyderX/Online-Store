@@ -1,0 +1,47 @@
+name: PR Validation
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validate branch name
+        run: |
+          branch="${{ github.head_ref }}"
+          if [[ ! "$branch" =~ ^(feat|fix|hotfix)/.+ ]]; then
+            echo "❌ Branch name must follow: feat/, fix/, or hotfix/"
+            echo "Current branch: $branch"
+            exit 1
+          fi
+          echo "✅ Branch name is valid: $branch"
+
+      - name: Validate PR description
+        run: |
+          description="${{ github.event.pull_request.body }}"
+          
+          if [[ ! "$description" =~ "## Developer checks" ]]; then
+            echo "❌ PR must include '## Developer checks' section"
+            exit 1
+          fi
+          
+          required_checks=(
+            "Check that the project build works"
+            "Check the tests (if applicable)"
+            "Ensure there are no logs or unnecessary comments in the code"
+            "Code follows project conventions"
+            "Updated documentation (if needed)"
+            "No breaking changes (or documented if present)"
+          )
+          
+          for check in "${required_checks[@]}"; do
+            if [[ ! "$description" =~ "$check" ]]; then
+              echo "❌ Missing required check: $check"
+              exit 1
+            fi
+          done
+          
+          echo "✅ All Developer checks are present"
