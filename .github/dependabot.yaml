@@ -1,0 +1,46 @@
+version: 2
+updates:
+  # NPM dependencies
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+      timezone: 'UTC'
+    target-branch: 'dev'
+    pull-request-branch-name:
+      separator: '-'
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'deps'
+      include: 'scope'
+    labels:
+      - 'fix'
+      - 'ci'
+    reviewers:
+      - 'FrayRyderX'
+    allow:
+      - dependency-type: 'direct'
+      - dependency-type: 'indirect'
+    ignore:
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
+    groups:
+      dev-dependencies:
+        patterns:
+          - '@types/*'
+          - 'eslint*'
+          - 'prettier*'
+          - 'typescript'
+        update-types:
+          - 'minor'
+          - 'patch'
+      react-ecosystem:
+        patterns:
+          - 'react*'
+          - 'next*'
+          - '@next/*'
+        update-types:
+          - 'minor'
+          - 'patch'
