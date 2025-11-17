@@ -1,0 +1,7 @@
+{
+  "version": "0.2",
+  "language": "en,es",
+  "words": ["logomark"],
+  "dictionaries": ["typescript", "node", "html", "css"],
+  "ignorePaths": ["node_modules", ".next", "dist", "build"]
+}
