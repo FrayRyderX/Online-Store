@@ -9,7 +9,7 @@
     "lint": "eslint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "spell-check": "cspell \"**/*.{ts,tsx,js,jsx}\""
+    "spell-check": "cspell \"**/*.{ts,tsx,js,jsx,md}\""
   },
   "dependencies": {
     "next": "16.0.3",
